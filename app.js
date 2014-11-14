@@ -23,8 +23,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // list all our inventory items
 app.route('/')
+   .get(inventory.list);
 
-.get(inventory.list);
+// view a single item
+app.route('/:id')
+   .get(inventory.show);
+
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
