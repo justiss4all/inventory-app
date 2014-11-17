@@ -21,9 +21,16 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// list all our inventory items
+
 app.route('/')
-   .get(inventory.list);
+   // list all inventory items
+   .get(inventory.list)
+   // create new inventory items
+   .post(inventory.create); 
+
+
+// add new item
+app.get('/new', inventory.new);
 
 // view a single item
 app.route('/:id')
