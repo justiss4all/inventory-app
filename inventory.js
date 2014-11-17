@@ -1,13 +1,16 @@
 var items = [];
 var _ = require('lodash');
 
+function findOne(req) {
+  return _.find(items, {id: req.params.id});
+}
+
 exports.list = function(req, res) {
   res.render('index', {items: items});
 };
 
 exports.show = function(req, res) {
-  var item = _.find(items, {id: req.params.id});
-  res.render('show', item);
+  res.render('show', findOne(req));
 };
 
 exports.new = function(req, res) {
@@ -16,11 +19,34 @@ exports.new = function(req, res) {
 
 exports.create = function(req, res) {
   var item = {
-    id: _.uniqueID,
+    id: _.uniqueId(), //added function
     name: req.body.name,
     description: req.body.description
   };
 
   items.push(item);
-  res.redirect('/'); 
+  res.redirect('/');
+  console.log(item);
+};
+
+exports.edit = function(req, res) {
+  res.render('edit', findOne(req));
+};
+
+exports.update = function(req, res) {
+  var id = req.params.id;
+  var index = _.findIndex(items, {id: id});
+  var item = {
+      id: id,
+      name: req.body.name,
+      description: req.body.description
+  };
+
+  items[index] = item;
+  res.redirect('/' + id);
+};
+
+exports.delete = function(req, res) {
+  _.remove(items, {id: req.params.id});
+  res.json({success: true});
 };

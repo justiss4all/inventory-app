@@ -26,16 +26,25 @@ app.route('/')
    // list all inventory items
    .get(inventory.list)
    // create new inventory items
-   .post(inventory.create); 
+   .post(inventory.create);
 
 
 // add new item
 app.get('/new', inventory.new);
 
-// view a single item
-app.route('/:id')
-   .get(inventory.show);
 
+app.route('/:id')
+   // view a single item
+   .get(inventory.show)
+   // update a single item
+   .post(inventory.update)
+   // delete a single item
+   .delete(inventory.delete);
+
+
+app.route('/:id/edit')
+   // open edit form
+   .get(inventory.edit);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
